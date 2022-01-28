@@ -19,7 +19,7 @@ contract swap  {
         require(_token == USDC || _token == VUSD, "Please choose type of token correctly");
         require(IERC20(_token).allowance(msg.sender, address(this)) == _amount*10**18,"You must approve in web3");
         address tokenReceived = _token == USDC ? VUSD : USDC;
-        require(IERC20(tokenReceived).balanceOf(address(this)) >= _amount*10**18, "VNTC is not enough");
+        require(IERC20(tokenReceived).balanceOf(address(this)) >= _amount*10**18, "Balance of contract is not enough");
         require(IERC20(_token).transferFrom(msg.sender, address(this),_amount*10**18), "Transfer failed");
         IERC20(tokenReceived).transfer(msg.sender, _amount*10**18);
         emit Swap(msg.sender,  _token,  _amount);
