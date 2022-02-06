@@ -3,36 +3,49 @@ pragma solidity ^0.8.10;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract swap  {
-    address  USDC = 0x38558FB189f9fB0a6B455064477627Fdbe3d0f1c;
-    address  VUSD = 0xba7dF49529892d36f8A852d576C1343e0BfE80Ea;
+contract MintableToken is  ERC20 {
 
     address owner ;
-    constructor(){
+    constructor() public ERC20("vusd", "VUSD") { 
         owner = msg.sender;
-        }
+    }
 
 
-    event Swap(address _address, address _token, uint _amount);
+    address  USDC = 0x38558FB189f9fB0a6B455064477627Fdbe3d0f1c;
 
-    function changeToken(address _token, uint _amount) public {
-        require(_token == USDC || _token == VUSD, "Please choose type of token correctly");
-        require(IERC20(_token).allowance(msg.sender, address(this)) == _amount*10**18,"You must approve in web3");
-        address tokenReceived = _token == USDC ? VUSD : USDC;
-        require(IERC20(tokenReceived).balanceOf(address(this)) >= _amount*10**18, "Balance of contract is not enough");
-        require(IERC20(_token).transferFrom(msg.sender, address(this),_amount*10**18), "Transfer failed");
-        IERC20(tokenReceived).transfer(msg.sender, _amount*10**18);
-        emit Swap(msg.sender,  _token,  _amount);
-    
+    event buy(address _address, uint _amount);
+    event sell(address _address, uint _amount);
+
+
+    function buyVUSD(uint _amount) public {
+        require(_amount > 0);
+        require(IERC20(USDC).allowance(msg.sender, address(this)) == _amount*10**18,"You must approve in web3");
+        require(IERC20(USDC).transferFrom(msg.sender, address(this),_amount*10**18), "Transfer failed");
+        _mint(msg.sender, _amount*10**18);
+        emit buy(msg.sender, _amount);
+
+    }
+
+    function sellVUSD(uint _amount) public {
+        require(_amount > 0);
+        require(IERC20(USDC).balanceOf(address(this))>= _amount*10**18, "Balance is not enought");
+        require(transfer(address(this), _amount*10**18), "Transfer failed");
+        IERC20(USDC).transfer(msg.sender, _amount*10**18);
+        emit sell(msg.sender, _amount);
+
     }
 
     function checkBalance(address _token) public view returns(uint){
-        return IERC20(_token).balanceOf(address(this))/10**18;
+       return IERC20(_token).balanceOf(address(this))/10**18;
     }
 
-    function withdraw() public {
+    function withdraw(uint _amount) public {
+        require(_amount > 0);
+        require(IERC20(USDC).balanceOf(address(this))>= _amount*10**18, "Balance is not enought");
         require(msg.sender == owner," You are not be allowed");
-        IERC20(USDC).transfer(msg.sender, IERC20(USDC).balanceOf(address(this)));
-        IERC20(VUSD).transfer(msg.sender, IERC20(VUSD).balanceOf(address(this)));
+        IERC20(USDC).transfer(msg.sender, _amount*10**18);
     }
+
+
 }
+
