@@ -41,7 +41,7 @@ contract Swap is  ERC20 {
 
     function withdraw(uint _amount) public {
         require(_amount > 0);
-        require(IERC20(USDC).balanceOf(address(this))>= _amount*10**18, "Balance is not enought");
+        require(IERC20(USDC).balanceOf(address(this))>= _amount*10**18, "Balance is not enough");
         require(msg.sender == owner," You are not be allowed");
         IERC20(USDC).transfer(msg.sender, _amount*10**18);
     }
