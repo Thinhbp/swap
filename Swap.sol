@@ -28,7 +28,7 @@ contract Swap is  ERC20 {
 
     function sellVUSD(uint _amount) public {
         require(_amount > 0);
-        require(IERC20(USDC).balanceOf(address(this))>= _amount*10**18, "Balance is not enought");
+        require(IERC20(USDC).balanceOf(address(this))>= _amount*10**18, "Balance is not enough");
         require(transfer(address(this), _amount*10**18), "Transfer failed");
         IERC20(USDC).transfer(msg.sender, _amount*10**18);
         emit sell(msg.sender, _amount);
