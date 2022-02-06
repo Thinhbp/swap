@@ -3,7 +3,7 @@ pragma solidity ^0.8.10;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract MintableToken is  ERC20 {
+contract Swap is  ERC20 {
 
     address owner ;
     constructor() public ERC20("vusd", "VUSD") { 
