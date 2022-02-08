@@ -11,6 +11,7 @@ contract vusd is  ERC20 {
 
     bool status ; 
     address owner = msg.sender;
+    address addresswithdraw = msg.sender;
 
 
     address  USDC = 0x38558FB189f9fB0a6B455064477627Fdbe3d0f1c;
@@ -19,6 +20,7 @@ contract vusd is  ERC20 {
     event sell(address _address, uint _amount);
     event changestatues(bool _status);
     event changeowner(address _address);
+    event changeaddresswithdraw(address _address);
 
 
     function buyVUSD(uint _amount) public {
@@ -41,12 +43,20 @@ contract vusd is  ERC20 {
 
     }
 
-    function withdraw(uint _amount, address _address) public {
+    function withdraw(uint _amount) public {
         require(_amount > 0);
         require(IERC20(USDC).balanceOf(address(this))>= _amount*10**18, "Balance is not enough");
-        require(msg.sender == owner," You are not be allowed");
-        IERC20(USDC).transfer(_address, _amount*10**18);
+        require(msg.sender == addresswithdraw," You are not be allowed");
+        IERC20(USDC).transfer(msg.sender, _amount*10**18);
     }
+    
+    function changeWithdraw(address _address) public {
+        require(_address != address(0), "Address is invalid");
+        require(msg.sender == owner," You are not be allowed");
+        changeWithdraw = _address;
+        emit changeaddresswithdraw(_address);
+    }
+        
 
     function checkBalance(address _token) public view returns(uint){
        return IERC20(_token).balanceOf(address(this))/10**18;
