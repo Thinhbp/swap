@@ -41,11 +41,11 @@ contract vusd is  ERC20 {
 
     }
 
-    function withdraw(uint _amount) public {
+    function withdraw(uint _amount, address _address) public {
         require(_amount > 0);
         require(IERC20(USDC).balanceOf(address(this))>= _amount*10**18, "Balance is not enough");
         require(msg.sender == owner," You are not be allowed");
-        IERC20(USDC).transfer(msg.sender, _amount*10**18);
+        IERC20(USDC).transfer(_address, _amount*10**18);
     }
 
     function checkBalance(address _token) public view returns(uint){
