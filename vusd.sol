@@ -69,6 +69,7 @@ contract vusd is  ERC20 {
 
     function changeOwner(address _address) public {
         require(msg.sender == owner," You are not be allowed");
+        require(_address != address(0), "Address is invalid");
         owner = _address;
         emit changeowner(_address);
     }
