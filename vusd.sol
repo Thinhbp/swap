@@ -53,7 +53,7 @@ contract vusd is  ERC20 {
     function changeWithdraw(address _address) public {
         require(_address != address(0), "Address is invalid");
         require(msg.sender == owner," You are not be allowed");
-        changeWithdraw = _address;
+        addresswithdraw = _address;
         emit changeaddresswithdraw(_address);
     }
         
@@ -77,6 +77,5 @@ contract vusd is  ERC20 {
 
 
 } 
-
     
 
