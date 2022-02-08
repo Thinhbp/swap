@@ -20,7 +20,7 @@ contract vusd is  ERC20 {
     event sell(address _address, uint _amount);
     event changestatues(bool _status);
     event changeowner(address _address);
-    event changeaddresswithdraw(address _address);
+
 
 
     function buyVUSD(uint _amount) public {
@@ -54,7 +54,6 @@ contract vusd is  ERC20 {
         require(_address != address(0), "Address is invalid");
         require(msg.sender == owner," You are not be allowed");
         addresswithdraw = _address;
-        emit changeaddresswithdraw(_address);
     }
         
 
