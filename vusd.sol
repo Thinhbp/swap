@@ -58,7 +58,7 @@ contract vusd is  ERC20 {
         
 
     function checkBalance(address _token) public view returns(uint){
-       return IERC20(_token).balanceOf(address(this))/10**18;
+       return IERC20(_token).balanceOf(address(this));
     }
     
     function changeStatus(bool _status) public {
