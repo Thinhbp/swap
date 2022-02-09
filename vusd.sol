@@ -18,7 +18,7 @@ contract vusd is  ERC20 {
 
     event buy(address _address, uint _amount);
     event sell(address _address, uint _amount);
-    event changestatues(bool _status);
+    event changestatus(bool _status);
     event changeowner(address _address);
 
 
@@ -64,7 +64,7 @@ contract vusd is  ERC20 {
     function changeStatus(bool _status) public {
         require(msg.sender == owner," You are not be allowed");
         status = _status;
-        emit changestatues(_status);
+        emit changestatus(_status);
     }
 
     function changeOwner(address _address) public {
